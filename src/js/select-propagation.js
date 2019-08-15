@@ -2,22 +2,13 @@
  * select-propagation.js
  * Copyright (c) 2019 KOMEKOME Party (k2party)
  */
-;(function($){
-	$('select.select').each(function() {
+;
+"use strict";
+$(function() {
+	$('select[data-select-propagation]').each(function() {
 		var $target = $(this);
-		$target.selectpicker($.extend({
-			'multipleSeparator': ', ',
-			'selectedTextFormat': 'count > 3',
-			'countSelectedText' : '{0}件選択中',
-			'noneSelectedText': '指定しない',
-			'selectAllText': '全て選択',
-			'deselectAllText': 'クリア',
-			'actionsBox': true,
-			'showTick': true,
-		}, $target.data()));
-
 		// data-propagation属性がある場合、連携させる
-		var propagation = $target.data('propagation');
+		var propagation = $target.data('select-propagation');
 		if(propagation !== undefined && propagation != '') {
 			$(propagation).each(function() {
 				var $child = $(this);
@@ -64,9 +55,6 @@
 				});
 			});
 		}
-	});
-})(jQuery);
-
-$(function() {
-	$('select.select').triggerHandler('changed.bs.select');
+	})
+	.triggerHandler('changed.bs.select');
 });

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="IE=edge">
+<title>bs3-select-propagion</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/css/bootstrap-select.css">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-md-3 form-group">
+		<select name="category" class="select form-control" data-select-propagation="[name=item]">
+			<option value="">選択してください</option>
+			<option value="book" class="current">本</option>
+			<option value="dvd" class="history">DVD</option>
+		</select>
+		</div>
+		
+		<div class="col-md-5 form-group">
+		<select name="item" class="select form-control" data-select-propagation="[name=month]">
+			<option value="">選択してください</option>
+			<option data-group="book" value="2019">月刊マガジン（２０１９年）</option>
+			<option data-group="book" value="2018">月刊マガジン（２０１８年）</option>
+			<option data-group="book" value="2017">月刊マガジン（２０１７年）</option>
+			<option data-group="book" value="2016">月刊マガジン（２０１６年）</option>
+			<option data-group="dvd" value="0201">ＤＶＤ１</option>
+			<option data-group="dvd" value="0202">ＤＶＤ２</option>
+			<option data-group="dvd" value="0203">ＤＶＤ３</option>
+			<option data-group="dvd" value="0204">ＤＶＤ４</option>
+			<option data-group="dvd" value="0205">ＤＶＤ５</option>
+		</select>
+		</div>
+		
+		<div class="col-md-4 form-group">
+		<select name="month" class="select form-control" multiple="multiple" data-selected-text-format="count > 4">
+			<option data-group="2019" value="201901">２０１９年１月号</option>
+			<option data-group="2019" value="201902">２０１９年２月号</option>
+			<option data-group="2019" value="201903">２０１９年３月号</option>
+			<option data-group="2019" value="201904">２０１９年４月号</option>
+			<option data-group="2019" value="201905">２０１９年５月号</option>
+			<option data-group="2019" value="201906">２０１９年６月号</option>
+			<option data-group="2019" value="201907">２０１９年７月号</option>
+			<option data-group="2019" value="201908">２０１９年８月号</option>
+			<option data-group="2019" value="201909">２０１９年９月号（最新刊）</option>
+
+			<option data-group="2018" value="201801">２０１８年１月号</option>
+			<option data-group="2018" value="201802">２０１８年２月号</option>
+			<option data-group="2018" value="201803">２０１８年３月号</option>
+			<option data-group="2018" value="201804">２０１８年４月号</option>
+			<option data-group="2018" value="201805">２０１８年５月号</option>
+			<option data-group="2018" value="201806">２０１８年６月号</option>
+			<option data-group="2018" value="201807">２０１８年７月号</option>
+			<option data-group="2018" value="201808">２０１８年８月号</option>
+			<option data-group="2018" value="201809">２０１８年９月号</option>
+			<option data-group="2018" value="201810">２０１８年１０月号</option>
+			<option data-group="2018" value="201811">２０１８年１１月号</option>
+			<option data-group="2018" value="201812">２０１８年１２月号</option>
+		</select>
+		</div>
+	</div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/js/bootstrap-select.js"></script>
+<script type="text/javascript">
+(function($) {
+	$('select.select').each(function() {
+		var $target = $(this);
+		$target.selectpicker($.extend({
+			'multipleSeparator': ', ',
+			'selectedTextFormat': 'count > 3',
+			'countSelectedText' : '{0}件選択中',
+			'noneSelectedText': '指定しない',
+			'selectAllText': '全て選択',
+			'deselectAllText': 'クリア',
+			'actionsBox': true,
+			'showTick': true,
+		}, $target.data()));
+	})
+})(jQuery);
+</script>
+<script type="text/javascript" src="resources/select-propagation.js"></script>
+</body>
+</html>
