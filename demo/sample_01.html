@@ -15,11 +15,12 @@
 			<option value="">選択してください</option>
 			<option value="book" class="current">本</option>
 			<option value="dvd" class="history">DVD</option>
+			<option value="*">すべて</option>
 		</select>
 		</div>
 		
 		<div class="col-md-5 form-group">
-		<select name="item" class="select form-control" data-select-propagation="[name=month]">
+		<select name="item" class="select form-control" data-select-ajax="sample_01.php" data-select-propagation="[name=month]">
 			<option value="">選択してください</option>
 			<option data-group="book" value="2019">月刊マガジン（２０１９年）</option>
 			<option data-group="book" value="2018">月刊マガジン（２０１８年）</option>
