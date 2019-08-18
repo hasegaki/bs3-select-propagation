@@ -16,7 +16,6 @@
 		
 		if(typeof this._options.selectAjax == 'string') {
 			this._options.selectAjax = {
-				type: 'get',
 				url: this._options.selectAjax,
 			};
 		}
@@ -37,7 +36,7 @@
 				data: {
 					q: value,
 				},
-			}, this._options.ajax))
+			}, this._options.selectAjax))
 			.done(function(result) {
 				console.log(result);
 			})
@@ -51,30 +50,41 @@
 			// イベントのパラメタから現在値を取得
 			var value = parameters.value;
 			var propagation_target = this._propagation_target;
-			if(propagation_target._options.ajax != null && typeof propagation_target._options.ajax == 'object') {
+			if(propagation_target._options.selectAjax != null
+					&& typeof propagation_target._options.selectAjax == 'object') {
 				// data-select-ajax属性が指定されている場合、ajax実行
 				propagation_target._ajax(value).done(function(result) {
 					// ajax実行後（正常時）、ドロップダウンリストの内容を再構築する
 					var html = '';
 					result.data.forEach(function(data) {
 						var option = [data, data];
-						var matcher = data.match(/^([^\s]+)\s+(.*)$/);
+						var matcher = data.match(/^([^\s]*)\s+(.*)$/);
 						if(matcher != null) {
 							option = [matcher[1], matcher[2]];
 						}
 						html += '<option value="'+ option[0] + '">' + option[1] + '</option>';
 					});
 					propagation_target._$target.html(html);
+					propagation_target._$target.selectpicker('refresh');
 				});
 				return;
 			}
 			
 			// ajaxでない場合、option[data-group=xxxx]を取得して入れ替える
 			var $children = propagation_target._$children.clone();
-			$children = $children.filter('[data-group=' + value + ']');
+			if(value == undefined || value == null || value == '') {
+				value = '""';
+			}
+			if(value != '*') {
+				$children = $children.filter('[data-group=' + value + ']'); 
+			}
 			propagation_target._$target.children('[data-group]').remove();
 			propagation_target._$target.append($children);
 			propagation_target._$target.selectpicker('refresh');
+			
+			if(propagation_target._$target._propagation) {
+				propagation_target._$target._propagation.refresh(parameters);
+			}
 		},
 	};
 	
@@ -102,18 +112,19 @@
 	};
 
 	PropagationPropagator.prototype = {
-		refresh: function()
+		refresh: function(origin)
 		{
-			this._propagation._$propagations.triggerHandler('select.propagation', {
-				source: $(this),
-				sourceEvent: jqEvent,
-				value: $(this).val(),
+			console.log('refresh', this);
+			this._$propagations.triggerHandler('select.propagation', {
+				source: origin? origin.source:this._$target,
+				sourceEvent: origin? origin.eventSource:undefined,
+				value: this._$target.val(),
 			});
 		},
 		
 		_on_change: function(jqEvent)
 		{
-			console.log(jqEvent);
+			console.log(__proto__, jqEvent);
 			this._propagation._$propagations.triggerHandler('select.propagation', {
 				source: $(this),
 				sourceEvent: jqEvent,
@@ -127,6 +138,7 @@
 		if(args.length == 0 || typeof args[0] == 'object') {
 			this.each(function(index, target) {
 				target._propagation = new PropagationPropagator($(target), args[0]);
+				target._propagation.refresh();
 			});
 			return this;
 		}
