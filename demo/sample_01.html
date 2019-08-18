@@ -67,6 +67,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.10/js/bootstrap-select.js"></script>
+<script type="text/javascript" src="resources/selectpicker-propagation.js"></script>
 <script type="text/javascript">
 (function($) {
 	$('select.select').each(function() {
@@ -81,9 +82,13 @@
 			'actionsBox': true,
 			'showTick': true,
 		}, $target.data()));
-	})
+	});
+	$('select[data-select-propagation]').each(function() {
+		console.log(this);
+		var $target = $(this);
+		$target.propagation($target.data());
+	});
 })(jQuery);
 </script>
-<script type="text/javascript" src="resources/select-propagation.js"></script>
 </body>
 </html>

@@ -1,3 +1,3 @@
-const _module = require('./dist/select-propagation.js');
+const _module = require('./dist/selectpicker-propagation.js');
 
 module.exports = _module;
